@@ -1,0 +1,23 @@
+RUTAS ORDENADOR RICHARD 
+ConfigRutasExtractorSemantico
+  public static final String DirectorioGateHome= "C:\\GATE_Developer_8.0";
+  public static final String DirectorioAppFile= "C:\\prototipoDASI\\ICARO\\anniePruebaEjemplo1";
+  
+  public class ConfigInfoComunicacionChat {
+     public static final String urlFeeNode= "irc.freenode.net";
+     public static final String nicknameConexionAgte= "AgteCitas";
+     public static final String chanelConexionAgte= "#kiwiirc-chatdasi";
+     public static final String identInterlocutorPruebas = "soporte";
+}
+
+
+ClaseGeneradoraComunicacionChat
+
+       private ConexionIrc comunicChat ;
+        private InterpreteMsgsIRC interpreteMsgIrc;
+        private String identExtractorSem;
+        private String url = null;
+        private String nickname = null;
+        private String chanel="#kiwiirc-chatdasi";
+        private String identInterlocutorPruebas = "soporte";
+        private Boolean conectado = false;
