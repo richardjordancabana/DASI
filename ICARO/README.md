@@ -1,2 +1,2 @@
-# SALOMON1
+# SALOMON2
 Desarrollo de Sistemas Inteligentes y Aplicaciones (UCM)
