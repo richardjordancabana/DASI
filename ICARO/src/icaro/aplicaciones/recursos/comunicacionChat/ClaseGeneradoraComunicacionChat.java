@@ -28,7 +28,7 @@ public class ClaseGeneradoraComunicacionChat extends ImplRecursoSimple implement
         private String url = null;
         private String nickname = null;
         private String chanel="#kiwiirc-chatdasi";
-        private String identInterlocutorPruebas = "soporte";
+        private String identInterlocutorPruebas = "soporte2";
         private Boolean conectado = false;
         
 
