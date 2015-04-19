@@ -22,7 +22,7 @@ ClaseGeneradoraComunicacionChat
         private String identInterlocutorPruebas = "soporte";
         private Boolean conectado = false;
         
-RUTAS ORDENADOR DANIEL
+RUTAS ORDENADOR DANIEll
 public class ConfigRutasExtractorSemantico {
     public static final String DirectorioGateHome= "/GATE_Developer_8.0";
     public static final String DirectorioAppFile= "/Users/daniel/git/DASI/ICARO/anniePruebaEjemplo1";
