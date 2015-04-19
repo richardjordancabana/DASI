@@ -13,7 +13,11 @@ package icaro.aplicaciones.recursos.extractorSemantico;
 public class ConfigRutasExtractorSemantico {
     public static final String DirectorioGateHome= "C:\\GATE_Developer_8.0";
 //    public static final String DirectorioAppFile= "E:\\FicheroRed\\GatePruebas\\anniePruebaEjemplo1";
+<<<<<<< HEAD
     public static final String DirectorioAppFile= "C:\\Users\\IGNACIO\\git\\DASI\\ICARO\\anniePruebaEjemplo1";
+=======
+    public static final String DirectorioAppFile= "C:\\Users\\carlos\\git\\DASI\\ICARO\\anniePruebaEjemplo1";
+>>>>>>> branch 'master' of https://github.com/richardjordancabana/DASI
  
     
 }
