@@ -397,6 +397,7 @@ public class InterpreteMsgsIRC {
         HashSet anotacionesBusquedaPrueba = new HashSet();
         anotacionesBusquedaPrueba.add("Saludo");
         anotacionesBusquedaPrueba.add("Lookup");
+        anotacionesBusquedaPrueba.add("MinuevaAnotacionHardware");
     // esto habria que pasarlo como parametro
         if(infoConecxInterlocutor==null)infoConecxInterlocutor= new InfoConexionUsuario();
         infoConecxInterlocutor.setuserName(sender);
