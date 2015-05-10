@@ -16,6 +16,7 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1229,11 +1230,29 @@ private ArrayList interpretarAnotaciones(String interlocutor,String contextoInte
                  anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
 //                 i++;
              }
+             if(anotType.equalsIgnoreCase("minuevaanotacionhardware")){
+                 anotacionesInterpretadas.add(interpretarAnotacionSalomon(contextoInterpretacion, annot));
+//                 i++;
+             }
 //                 fet = annot.getFeatures();
                 
 //                string= (String) annot.getFeatures().get("string");
             }
      return anotacionesInterpretadas;
+}
+private Notificacion interpretarAnotacionSalomon(String conttextoInterpretacion,Annotation anotacionSalomon){
+//  if(anotacionSaludo.getType()!="saludo"){
+//      return null;
+//  }
+  Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+  // obtenemos el texto del saludo a partir de la anotacion
+          
+      int posicionComienzoTexto =anotacionSalomon.getStartNode().getOffset().intValue();
+      int posicionFinTexto =anotacionSalomon.getEndNode().getOffset().intValue();
+      String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+      notif.setTipoNotificacion(anotacionSalomon.getType());
+      notif.setMensajeNotificacion(msgNotif);
+      return notif;
 }
 private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion,Annotation anotacionSaludo){
 //    if(anotacionSaludo.getType()!="saludo"){
