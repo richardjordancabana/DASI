@@ -43,7 +43,7 @@ public class SaludarYPresentarFuncionalidad extends TareaSincrona{
 						VocabularioGestionCitas.IdentRecursoComunicacionChat);          
                 if (recComunicacionChat!=null){
                     recComunicacionChat.comenzar(identAgenteOrdenante);
-                    String mensajeAenviar = VocabularioGestionCitas.SaludoInicial2+ "  "+ identInterlocutor + "  "+
+                    String mensajeAenviar = "holaaaaaaaaaaaaaa"+ "  "+ identInterlocutor + "  "+
                             VocabularioGestionCitas.InfoGeneralFuncionalidad + "  "+
                             VocabularioGestionCitas.PeticionInformacionGeneral1;
                     recComunicacionChat.enviarMensagePrivado(mensajeAenviar);

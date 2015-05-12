@@ -24,12 +24,14 @@
 			</icaro:DescComportamientoGestores>
 	<!--******************************************************************************************************
 	******************   Descripción del comportamiento de los agentes de aplicación   		******************
-	********************************************************************************************************-->		
+	********************************************************************************************************
+	localizacionComportamiento="icaro.aplicaciones.agentes.AgenteSoporte"
+	localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteSoporte.ProcesoResolucionObjetivos.reglasDasi.drl"	-->		
 			<icaro:DescComportamientoAgentesAplicacion>
 				<icaro:DescComportamientoAgente
 					nombreComportamiento="AgenteAplicacionAcceso" rol="AgenteAplicacion" 
-					localizacionComportamiento="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo"
-                                        localizacionFicheroReglas="icaro.aplicaciones.agentes.agenteAplicacionDialogoCitasCognitivo.procesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
+					localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo"
+                                        localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.ProcesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
 					tipo="Cognitivo" />
 			</icaro:DescComportamientoAgentesAplicacion>
 		</icaro:DescComportamientoAgentes>
