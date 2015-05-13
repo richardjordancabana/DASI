@@ -20,6 +20,25 @@ TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.cla
 recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
 end
 
+//Reglas de focalizacion.
+rule "Regla de focalizacion en objetivo"
+ when
+    f:Focus(foco == null )
+    obj:ContestarUsuario()
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+rule "Inicio del proceso de consecucion del  objetivo "
+  when
+    obj:ContestarUsuario(state==Objetivo.PENDING)
+    Focus(foco ==obj)
+  then
+    obj.setSolving();
+    update(obj);
+end
+
 rule "Saludo Inicial y peticion de info"
    when
     obj:ContestarUsuario(state==Objetivo.SOLVING)
@@ -31,6 +50,19 @@ rule "Saludo Inicial y peticion de info"
     recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
     recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
 end
+
+rule "Intento de conversacion "
+   when
+    obj:ContestarUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)	
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioGestionCitas.NombreTipoNoticacionConversacion)
+   then
+     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Contestar.class);
+     tarea.ejecutar(identInterlc);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+
 rule "No hay extraccion  semantica del texto del interlocutor  "
    when
     obj:ContestarUsuario(state==Objetivo.SOLVING)

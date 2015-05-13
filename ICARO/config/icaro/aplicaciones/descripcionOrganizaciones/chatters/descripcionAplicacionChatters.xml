@@ -26,12 +26,15 @@
 	******************   Descripción del comportamiento de los agentes de aplicación   		******************
 	********************************************************************************************************
 	localizacionComportamiento="icaro.aplicaciones.agentes.AgenteSoporte"
-	localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteSoporte.ProcesoResolucionObjetivos.reglasDasi.drl"	-->		
+	localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteSoporte.ProcesoResolucionObjetivos.reglasDasi.drl"	
+	localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo"
+	localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.ProcesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
+	-->		
 			<icaro:DescComportamientoAgentesAplicacion>
 				<icaro:DescComportamientoAgente
 					nombreComportamiento="AgenteAplicacionAcceso" rol="AgenteAplicacion" 
-					localizacionComportamiento="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo"
-                                        localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.ProcesoResolucionObjetivos.reglasAgenteDialogoCitas.drl"
+					localizacionComportamiento="icaro.aplicaciones.agentes.AgenteSoporte"
+                                        localizacionFicheroReglas="icaro.aplicaciones.agentes.AgenteSoporte.ProcesoResolucionObjetivos.reglasDasi.drl"
 					tipo="Cognitivo" />
 			</icaro:DescComportamientoAgentesAplicacion>
 		</icaro:DescComportamientoAgentes>

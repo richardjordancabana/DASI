@@ -397,6 +397,8 @@ public class InterpreteMsgsIRC {
         HashSet anotacionesBusquedaPrueba = new HashSet();
         anotacionesBusquedaPrueba.add("Saludo");
         anotacionesBusquedaPrueba.add("Lookup");
+        anotacionesBusquedaPrueba.add("conversacion");
+        
     // esto habria que pasarlo como parametro
         if(infoConecxInterlocutor==null)infoConecxInterlocutor= new InfoConexionUsuario();
         infoConecxInterlocutor.setuserName(sender);
@@ -1224,7 +1226,7 @@ private ArrayList interpretarAnotaciones(String interlocutor,String contextoInte
             while(annotTypesSal.hasNext()) {
              Annotation    annot = (Annotation) annotTypesSal.next();
              String anotType=annot.getType();
-             if(anotType.equalsIgnoreCase("saludo")){
+             if(anotType.equalsIgnoreCase("conversacion")){
                  anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
 //                 i++;
              }
