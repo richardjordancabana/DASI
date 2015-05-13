@@ -1,0 +1,191 @@
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.ItfUsoRecursoTrazas;
+import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
+import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.*;
+import icaro.infraestructura.patronAgenteCognitivo.procesadorObjetivos.gestorTareas.ItfGestorTareas;
+import icaro.infraestructura.entidadesBasicas.PerformativaUsuario;
+import icaro.infraestructura.entidadesBasicas.comunicacion.*
+import icaro.aplicaciones.agentes.AgenteAplicacionDasi.objetivos.*;
+import icaro.aplicaciones.informacion.gestionCitas.*;
+import icaro.aplicaciones.agentes.AgenteAplicacionDasi.tareas.*;
+import icaro.aplicaciones.informacion.Dasi.*;
+
+global ItfGestorTareas gestorTareas;
+global ItfUsoRecursoTrazas recursoTrazas;
+global String agentId;
+
+
+
+// =======================================================================
+rule "Creacion de los objectivos iniciales"
+when 
+then 
+TareaSincrona tarea = gestorTareas.crearTareaSincrona(InicializarInfoWorkMem.class);
+    tarea.ejecutar();
+recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName()); 
+end
+
+// =======================================================================
+
+
+
+
+// =======================================================================
+rule "Regla de focalizacion en objetivo ContestarUsuario"
+ when
+    f:Focus(foco == null )
+    obj:ContestarUsuario()
+ then
+    f.setFoco(obj);
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    update(f);
+end
+// =======================================================================
+
+
+
+
+//=======================================================================
+rule "Inicio del proceso de consecucion del  objetivo ContestarUsuario"
+  when
+    obj:ContestarUsuario(state==Objetivo.PENDING)
+    Focus(foco ==obj)
+  then
+    obj.setSolving();
+    update(obj);
+end
+// =======================================================================
+
+
+
+// =======================================================================
+rule "Contestar"
+   when
+    obj:ContestarUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+   then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Se ejecuta la tarea : Contestar",InfoTraza.NivelTraza.debug));
+     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Contestar.class); // Clase con la tarea
+     tarea.ejecutar(VocabularioGestionCitas.IdentRecursoComunicacionChat);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    //---Añadido a ver si pasa de Solving a Solved---
+    obj.setSolved();
+    update(obj);
+end
+// =======================================================================
+
+
+// =======================================================================
+rule "Regla de focalizacion en objetivo EntenderUsuario"
+    when
+        f:Focus(foco != null )
+        obj:ContestarUsuario(state==Objetivo.SOLVED)
+        Focus(foco == obj)
+        obj2:EntenderUsuario()
+    then
+        f.setFoco(obj2);
+        recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+        update(f);
+end
+// =======================================================================
+
+
+//=======================================================================
+rule "Inicio del proceso de consecucion del  objetivo EntenderUsuario"
+  when
+    obj:EntenderUsuario(state==Objetivo.PENDING)
+    Focus(foco ==obj)
+  then
+    obj.setSolving();
+    update(obj);
+end
+// =======================================================================
+
+// =======================================================================
+rule "Entender petición de usuario "
+   when
+    obj:EntenderUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioDasi.NOMBRE_TIPO_NOTIFICACION_DUDA)
+   then
+     TareaSincrona tarea = gestorTareas.crearTareaSincrona(Entender.class);
+     tarea.ejecutar(identInterlc);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+end
+// =======================================================================
+
+// =======================================================================
+rule "Duda sobre aplicacion "
+   when
+    obj:EntenderUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioDasi.NOMBRE_TIPO_NOTIFICACION_APLICACION)
+   then
+     TareaSincrona tarea = gestorTareas.crearTareaSincrona(NombreAplicacion.class);
+     tarea.ejecutar(identInterlc);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    obj.setSolved();
+    update(obj);
+end
+// =======================================================================
+
+// =======================================================================
+rule "Regla de focalizacion en objetivo PreguntarUsuario"
+    when
+        f:Focus(foco != null )
+        obj:EntenderUsuario(state==Objetivo.SOLVED)
+        Focus(foco == obj)
+        obj2:PreguntarUsuario()
+    then
+        f.setFoco(obj2);
+        recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+        update(f);
+end
+// =======================================================================
+
+
+//=======================================================================
+rule "Inicio del proceso de consecucion del  objetivo PreguntarUsuario"
+  when
+    obj:PreguntarUsuario(state==Objetivo.PENDING)
+    Focus(foco ==obj)
+  then
+    obj.setSolving();
+    update(obj);
+end
+// =======================================================================
+
+// =======================================================================
+rule "Preguntar si el usuario tiene otra duda "
+   when
+    obj:PreguntarUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+   then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Se ejecuta la tarea : PeguntarUsuario",InfoTraza.NivelTraza.debug));
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Preguntar.class); // Clase con la tarea
+    tarea.ejecutar(VocabularioGestionCitas.IdentRecursoComunicacionChat);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+  
+end
+// =======================================================================
+
+
+// =======================================================================
+rule "Despedida"
+   when
+    obj:PreguntarUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioDasi.NOMBRE_TIPO_NOTIFICACION_NEGACION)
+   then
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Se ejecuta la tarea : PeguntarUsuario",InfoTraza.NivelTraza.debug));
+    TareaSincrona tarea = gestorTareas.crearTareaSincrona(Despedida.class); // Clase con la tarea
+    tarea.ejecutar(VocabularioGestionCitas.IdentRecursoComunicacionChat);
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+    obj.setSolved();
+    update(obj) 
+end
+// =======================================================================
