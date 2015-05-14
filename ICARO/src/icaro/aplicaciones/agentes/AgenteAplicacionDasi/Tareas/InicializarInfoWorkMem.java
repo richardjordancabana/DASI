@@ -3,8 +3,8 @@
  * and open the template in the editor.
  */
 
-package icaro.aplicaciones.agentes.AgenteSoporte.Tareas;
-import icaro.aplicaciones.agentes.AgenteSoporte.Objetivos.*;
+package icaro.aplicaciones.agentes.AgenteAplicacionDasi.Tareas;
+import icaro.aplicaciones.agentes.AgenteAplicacionDasi.Objetivos.*;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Focus;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.*;
@@ -22,6 +22,8 @@ public class InicializarInfoWorkMem extends TareaSincrona{
              this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
              this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
              this.getEnvioHechos().insertarHecho(new ContestarUsuario());
+             this.getEnvioHechos().insertarHecho(new EntenderUsuario());
+             this.getEnvioHechos().insertarHecho(new PreguntarUsuario());
              
        } catch (Exception e) {
 			 e.printStackTrace();

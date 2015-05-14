@@ -1,5 +1,5 @@
-package icaro.aplicaciones.agentes.AgenteSoporte.Tareas;
-import icaro.aplicaciones.agentes.AgenteSoporte.Objetivos.*;
+package icaro.aplicaciones.agentes.AgenteAplicacionDasi.Tareas;
+import icaro.aplicaciones.agentes.AgenteAplicacionDasi.Objetivos.*;
 import icaro.aplicaciones.informacion.gestionCitas.VocabularioGestionCitas;
 import icaro.aplicaciones.recursos.comunicacionChat.ItfUsoComunicacionChat;
 import icaro.infraestructura.entidadesBasicas.NombresPredefinidos;
@@ -9,7 +9,7 @@ import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Objetivo;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
 
-
+import icaro.aplicaciones.informacion.Dasi.VocabularioDasi;
 
 
 public class Contestar extends TareaSincrona {
@@ -31,9 +31,9 @@ public class Contestar extends TareaSincrona {
 						VocabularioGestionCitas.IdentRecursoComunicacionChat);          
                 if (recComunicacionChat!=null){
                     recComunicacionChat.comenzar(identAgenteOrdenante);
-                    String mensajeAenviar = "holaaaaaaaaaaaaa"+ "  "+ identInterlocutor + "  "+
-                            VocabularioGestionCitas.InfoGeneralFuncionalidad + "  "+
-                            VocabularioGestionCitas.PeticionInformacionGeneral1;
+                    String mensajeAenviar = VocabularioDasi.SALUDO + "  "+ identInterlocutor + "  "+
+                    		VocabularioDasi.FUNCIONALIDAD + "  "+
+                    		VocabularioDasi.PETICION_INFORMACION;
                     recComunicacionChat.enviarMensagePrivado(mensajeAenviar);
                 }
                 else {
