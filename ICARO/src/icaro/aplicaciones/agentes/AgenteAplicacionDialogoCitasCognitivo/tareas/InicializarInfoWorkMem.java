@@ -4,7 +4,9 @@
  */
 
 package icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.tareas;
-import icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetivos.ObtenerInfoInterlocutor;
+import icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetivos.ContestarUsuario;
+import icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetivos.EntenderUsuario;
+import icaro.aplicaciones.agentes.AgenteAplicacionDialogoCitasCognitivo.objetivos.PreguntarUsuario;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.Focus;
 import icaro.infraestructura.entidadesBasicas.procesadorCognitivo.TareaSincrona;
 import icaro.infraestructura.recursosOrganizacion.recursoTrazas.imp.componentes.InfoTraza;
@@ -24,7 +26,9 @@ public class InicializarInfoWorkMem extends TareaSincrona{
              this.getItfConfigMotorDeReglas().setDepuracionActivationRulesDebugging(true);
              this.getItfConfigMotorDeReglas().setfactHandlesMonitoring_afterActivationFired_DEBUGGING(true);
              this.getEnvioHechos().insertarHechoWithoutFireRules(new Focus());
-             this.getEnvioHechos().insertarHecho(new ObtenerInfoInterlocutor());
+             this.getEnvioHechos().insertarHecho(new ContestarUsuario());
+             this.getEnvioHechos().insertarHecho(new EntenderUsuario());
+             this.getEnvioHechos().insertarHecho(new PreguntarUsuario());
              
        } catch (Exception e) {
 			 e.printStackTrace();
