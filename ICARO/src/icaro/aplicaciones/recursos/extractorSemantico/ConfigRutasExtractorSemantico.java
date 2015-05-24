@@ -12,9 +12,13 @@ package icaro.aplicaciones.recursos.extractorSemantico;
  */
 public class ConfigRutasExtractorSemantico {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> refs/remotes/origin/daniel
     public static final String DirectorioGateHome= "/GATE_Developer_8.0";
 //    public static final String DirectorioAppFile= "E:\\FicheroRed\\GatePruebas\\anniePruebaEjemplo1";
     public static final String DirectorioAppFile= "/Users/daniel/git/DASI/ICARO/anniePruebaEjemplo1";
+<<<<<<< HEAD
 =======
 	 public static final String DirectorioGateHome= "C:\\GATE_Developer_8.0";
 	  public static final String DirectorioAppFile= "C:\\Users\\rcabana\\git\\DASI\\ICARO\\anniePruebaEjemplo1";
@@ -22,5 +26,7 @@ public class ConfigRutasExtractorSemantico {
 
  
 >>>>>>> refs/remotes/origin/master
+=======
+>>>>>>> refs/remotes/origin/daniel
     
 }

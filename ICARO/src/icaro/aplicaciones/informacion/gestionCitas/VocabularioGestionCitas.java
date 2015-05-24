@@ -33,6 +33,7 @@ public class VocabularioGestionCitas {
     public static final String preambuloNoHeEntendido = " No he compredido bien lo que me ha dicho, pero vayamos al grano";
     public static final String peticionInfoIicialCita1 = " podría decirme con quien quiere la cita ";
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     public static final String AnotacionImpresora = "Entiendo, no te funciona la impresora, mira si el enchufe de corriente está suelto por favor ";
     public static final String NoticacionImpresora = "MinuevaAnotacionHardware";
@@ -41,4 +42,9 @@ public class VocabularioGestionCitas {
     
     public static final String NombreTipoNoticacionConversacion="conversacion";
 >>>>>>> refs/remotes/origin/master
+=======
+    
+    public static final String AnotacionImpresora = "Entiendo, no te funciona la impresora, mira si el enchufe de corriente está suelto por favor ";
+    public static final String NoticacionImpresora = "MinuevaAnotacionHardware";
+>>>>>>> refs/remotes/origin/daniel
 }
