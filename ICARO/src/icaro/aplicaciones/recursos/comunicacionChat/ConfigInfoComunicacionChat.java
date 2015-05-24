@@ -11,7 +11,7 @@ package icaro.aplicaciones.recursos.comunicacionChat;
  */
 public class ConfigInfoComunicacionChat {
      public static final String urlFeeNode= "irc.freenode.net";
-     public static final String nicknameConexionAgte= "AgteCitas";
-     public static final String chanelConexionAgte= "#kiwiirc-chatdasi";
-     public static final String identInterlocutorPruebas = "soporte2";
+     public static final String nicknameConexionAgte= "Salomon-icg";
+     public static final String chanelConexionAgte= "#kiwiirc-dasi100";
+     public static final String identInterlocutorPruebas = "soporte100";
 }

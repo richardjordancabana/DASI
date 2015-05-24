@@ -16,6 +16,7 @@ import icaro.infraestructura.entidadesBasicas.comunicacion.ComunicacionAgentes;
 import icaro.infraestructura.entidadesBasicas.comunicacion.MensajeSimple;
 import icaro.infraestructura.entidadesBasicas.excepciones.ExcepcionEnComponente;
 import icaro.infraestructura.entidadesBasicas.interfaces.InterfazUsoAgente;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -135,7 +136,7 @@ public class InterpreteMsgsIRC {
             
             String request = line.substring(line.indexOf(":\u0001") + 2, line.length() - 1);
 
-            // Check for version requests.
+            // Check for version r equests.
             if (request.equals("VERSION")) {
                 conectorIrc.onVersion(sourceNick, sourceLogin, sourceHostname, target);
                 return;
@@ -394,9 +395,17 @@ public class InterpreteMsgsIRC {
      */
     // Se envia la información al extrator semantico se traducen las anotaciones y se envia el contenido al agente de dialogo
     // de esta forma el agente recibe mensajes con entidades del modelo de información
-        HashSet anotacionesBusquedaPrueba = new HashSet();
+    	HashSet anotacionesBusquedaPrueba = new HashSet();
         anotacionesBusquedaPrueba.add("Saludo");
         anotacionesBusquedaPrueba.add("Lookup");
+        anotacionesBusquedaPrueba.add("Incidencia");
+        anotacionesBusquedaPrueba.add("Duda");
+        anotacionesBusquedaPrueba.add("Aplicacion");
+        anotacionesBusquedaPrueba.add("Negacion");
+        anotacionesBusquedaPrueba.add("Afirmacion");
+        anotacionesBusquedaPrueba.add("Componente");
+        anotacionesBusquedaPrueba.add("Posibilidad");
+        anotacionesBusquedaPrueba.add("MinuevaAnotacionHardware");
     // esto habria que pasarlo como parametro
         if(infoConecxInterlocutor==null)infoConecxInterlocutor= new InfoConexionUsuario();
         infoConecxInterlocutor.setuserName(sender);
@@ -1216,36 +1225,217 @@ public class InterpreteMsgsIRC {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     if (conectorIrc.isConnected())conectorIrc.disconnect(); 
     }
-private ArrayList interpretarAnotaciones(String interlocutor,String contextoInterpretacion,HashSet anotacionesRelevantes){
-    // recorremos las anotaciones obtenidas y las traducimos a objetos del modelo de información
-    ArrayList anotacionesInterpretadas =new ArrayList();
-//    int i=0;
-    Iterator annotTypesSal = anotacionesRelevantes.iterator();
-            while(annotTypesSal.hasNext()) {
-             Annotation    annot = (Annotation) annotTypesSal.next();
-             String anotType=annot.getType();
-             if(anotType.equalsIgnoreCase("saludo")){
-                 anotacionesInterpretadas.add(interpretarAnotacionSaludo(contextoInterpretacion, annot));
-//                 i++;
-             }
-//                 fet = annot.getFeatures();
+    private ArrayList interpretarAnotaciones(String interlocutor,String contextoInterpretacion,HashSet anotacionesRelevantes){
+        // recorremos las anotaciones obtenidas y las traducimos a objetos del modelo de información
+        ArrayList anotacionesInterpretadas =new ArrayList();
+        // int i=0;
+        
+        Iterator annotTypesSal = anotacionesRelevantes.iterator();
+                while(annotTypesSal.hasNext()) {
+                 Annotation annot = (Annotation) annotTypesSal.next();
+                     
+                 String anotType=annot.getType();
+                 
+                 // if(anotType.equalsIgnoreCase("saludo")){
+                 //if(anotType.equalsIgnoreCase("Lookup")){
+     
+                 
+                 if(anotType.equalsIgnoreCase("Incidencia")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionIncidencia(contextoInterpretacion, annot));
+//                     i++;
+                 }
+                 
+                  if(anotType.equalsIgnoreCase("Componente")){ 
+                    anotacionesInterpretadas.add(interpretarAnotacionComponente(contextoInterpretacion, annot));
+                     // i++;
+                    }
+                  
+                /* El extractor semántico identifica que la frase es una duda. */
+                if(anotType.equalsIgnoreCase("Duda")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionDuda(contextoInterpretacion, annot));
+                     // i++;
+                    
+                 }
+
+                /* El extractor semántico identifica que la frase contiene el nombre de una aplicación. */
+                if(anotType.equalsIgnoreCase("Aplicacion")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionAplicacion(contextoInterpretacion, annot));
+//                     i++;
+                 }
+
+                /* El extractor semántico identifica que la frase contiene una negación. */
+                if(anotType.equalsIgnoreCase("Negacion")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionNegacion(contextoInterpretacion, annot));
+//                     i++;
+                 }
                 
-//                string= (String) annot.getFeatures().get("string");
-            }
-     return anotacionesInterpretadas;
-}
-private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion,Annotation anotacionSaludo){
-//    if(anotacionSaludo.getType()!="saludo"){
-//        return null;
-//    }
-    Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
-    // obtenemos el texto del saludo a partir de la anotacion
-            
-        int posicionComienzoTexto =anotacionSaludo.getStartNode().getOffset().intValue();
-        int posicionFinTexto =anotacionSaludo.getEndNode().getOffset().intValue();
-        String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
-        notif.setTipoNotificacion(anotacionSaludo.getType());
-        notif.setMensajeNotificacion(msgNotif);
+                // Anotación Posibilidad.
+                if(anotType.equalsIgnoreCase("Posibilidad")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionPosibilidad(contextoInterpretacion, annot));
+//                     i++;
+                 }
+                /* El extractor semántico identifica que la frase contiene una negación. */
+                if(anotType.equalsIgnoreCase("Afirmacion")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionAfirmacion(contextoInterpretacion, annot));
+//                     i++;
+                 }
+                if(anotType.equalsIgnoreCase("minuevaanotacionhardware")){
+                	                 anotacionesInterpretadas.add(interpretarAnotacionSalomon(contextoInterpretacion, annot));
+                	//                 i++;
+              }
+                
+                
+
+
+
+//                     fet = annot.getFeatures();
+                    
+//                    string= (String) annot.getFeatures().get("string");
+                }
+        
+         return anotacionesInterpretadas;
+    }
+
+    private Notificacion interpretarAnotacionSalomon(String conttextoInterpretacion,Annotation anotacionSalomon){
+    	//  if(anotacionSaludo.getType()!="saludo"){
+    	//      return null;
+    	//  }
+    	  Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+    	  // obtenemos el texto del saludo a partir de la anotacion
+    	          
+    	      int posicionComienzoTexto =anotacionSalomon.getStartNode().getOffset().intValue();
+    	      int posicionFinTexto =anotacionSalomon.getEndNode().getOffset().intValue();
+    	      String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+         notif.setTipoNotificacion(anotacionSalomon.getType());
+   	     notif.setMensajeNotificacion(msgNotif);
         return notif;
-}
+    }
+
+    private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion,Annotation anotacionSaludo){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionSaludo.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionSaludo.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionSaludo.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
+    private Notificacion interpretarAnotacionIncidencia(String conttextoInterpretacion,Annotation anotacionIncidencia){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionIncidencia.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionIncidencia.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionIncidencia.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
+    /* Método donde se crea una notificación Duda. */
+    private Notificacion interpretarAnotacionDuda(String conttextoInterpretacion,Annotation anotacionDuda){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionDuda.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionDuda.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionDuda.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
+
+    /* Método donde se crea una notificación Aplicacion. */
+    private Notificacion interpretarAnotacionAplicacion(String conttextoInterpretacion,Annotation anotacionAplicacion){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionAplicacion.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionAplicacion.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionAplicacion.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
+    /* Método donde se crea una notificación Negacion. */
+    private Notificacion interpretarAnotacionNegacion(String conttextoInterpretacion,Annotation anotacionNegacion){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionNegacion.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionNegacion.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionNegacion.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+    /* Método donde se crea una notificación Afirmacion. */
+    private Notificacion interpretarAnotacionAfirmacion(String conttextoInterpretacion,Annotation anotacionAfirmacion){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionAfirmacion.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionAfirmacion.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionAfirmacion.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }  
+
+
+    /* Método donde se crea una notificación Componente. */
+    private Notificacion interpretarAnotacionComponente(String conttextoInterpretacion,Annotation anotacionComponente){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionComponente.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionComponente.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionComponente.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
+    /* Método donde se crea una notificación Componente. */
+    private Notificacion interpretarAnotacionPosibilidad(String conttextoInterpretacion,Annotation anotacionPosibilidad){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionPosibilidad.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionPosibilidad.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionPosibilidad.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }
+
 }
