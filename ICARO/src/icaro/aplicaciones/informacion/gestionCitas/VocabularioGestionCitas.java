@@ -16,11 +16,11 @@ public class VocabularioGestionCitas {
     public static final String IdentRecursoExtractorSemantico= "ExtractorSemantico1";
     public static final String IdentRecursoComunicacionChat= "ComunicacionChat1";
     public static final String IdentAgenteAplicacionDialogoCitas= "AgenteAplicacionDialogoCitas1";
-    public static final String IdentConexionAgte= "AgteCitas";
+    public static final String IdentConexionAgte= "Salomon-icg";
     public static final String IdentRecursoPersistenciaChat= "PersistenciaChat1";
     public static final String InfoUsuarioYaExiste= "infoUsuarioYaExistente";
     public static final String InfoUsuarioAltaGuardada="InfoAltaUsuarioGuardada";
-    public static final String SaludoInicial1="Hola soy un conversador inicial con poca capacidad de dialogo";
+    public static final String SaludoInicial1="Bienvenido al chatbot Salomon de ICG para soporte";
     public static final String SaludoInicial2="Hola ";
     public static final String PeticionInformacionGeneral1="Dime que deseas";
     public static final String RespuestaNoEniendo1="Lo siento pero no entiendo nada de lo que dice";
@@ -32,4 +32,7 @@ public class VocabularioGestionCitas {
     public static final String ExtraccionSemanticaNull= "SinSemantica";
     public static final String preambuloNoHeEntendido = " No he compredido bien lo que me ha dicho, pero vayamos al grano";
     public static final String peticionInfoIicialCita1 = " podría decirme con quien quiere la cita ";
+    
+    public static final String AnotacionImpresora = "Entiendo, no te funciona la impresora, mira si el enchufe de corriente está suelto por favor ";
+    public static final String NoticacionImpresora = "MinuevaAnotacionHardware";
 }
