@@ -1,7 +1,7 @@
 
 
 Phase:	Incidencias
-Input:  Token SpaceToken Incidencia Hardware
+Input:  Token SpaceToken Incidencia Impresora Pantalla
 Options: control = brill
 
 
@@ -16,3 +16,29 @@ Priority: 100
 ):incidenciaHardware
 -->
 :incidenciaHardware.MinuevaAnotacionHardware = {kind = "AnotacionHardware", rule = "IncidenciaHardware1"}
+
+Rule: IncidenciaHardware2
+Priority: 100
+(	
+{Incidencia}	
+	 ({SpaceToken})*	
+	
+{Impresora}
+):incidenciaHardware
+-->
+:incidenciaHardware.IncidenciaImpresora = {kind = "AnotacionHardware", rule = "IncidenciaHardware2"}
+
+
+Rule: IncidenciaHardwaredoble
+Priority: 100
+(	
+{Incidencia}
+({SpaceToken})*
+{Impresora}	
+	 ({SpaceToken})*	
+	{Token.string == "y"}
+({SpaceToken})*	
+{Pantalla}
+):incidenciaHardware
+-->
+:incidenciaHardware.IncidenciaImpresorayPantalla = {kind = "AnotacionHardware", rule = "IncidenciaHardwaredoble"}

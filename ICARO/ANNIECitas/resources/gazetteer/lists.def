@@ -111,3 +111,7 @@ afirmacion.lst:afirmacion:::Afirmacion
 negacion.lst:negacion:::Negacion
 componente.lst:componente:::Componente
 posibilidad.lst:posibilidad:::Posibilidad
+impresora.lst:impresora:::Impresora
+raton.lst:raton:::Raton
+pantalla.lst:pantalla:::Pantalla
+teclado.lst:teclado:::Teclado
