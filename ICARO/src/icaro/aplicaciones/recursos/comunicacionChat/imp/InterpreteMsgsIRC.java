@@ -402,8 +402,10 @@ public class InterpreteMsgsIRC {
         anotacionesBusquedaPrueba.add("Duda");
         anotacionesBusquedaPrueba.add("Aplicacion");
         anotacionesBusquedaPrueba.add("Negacion");
+        anotacionesBusquedaPrueba.add("Afirmacion");
         anotacionesBusquedaPrueba.add("Componente");
         anotacionesBusquedaPrueba.add("Posibilidad");
+        anotacionesBusquedaPrueba.add("MinuevaAnotacionHardware");
     // esto habria que pasarlo como parametro
         if(infoConecxInterlocutor==null)infoConecxInterlocutor= new InfoConexionUsuario();
         infoConecxInterlocutor.setuserName(sender);
@@ -1272,6 +1274,17 @@ public class InterpreteMsgsIRC {
                      anotacionesInterpretadas.add(interpretarAnotacionPosibilidad(contextoInterpretacion, annot));
 //                     i++;
                  }
+                /* El extractor semántico identifica que la frase contiene una negación. */
+                if(anotType.equalsIgnoreCase("Afirmacion")){ 
+                     anotacionesInterpretadas.add(interpretarAnotacionAfirmacion(contextoInterpretacion, annot));
+//                     i++;
+                 }
+                if(anotType.equalsIgnoreCase("minuevaanotacionhardware")){
+                	                 anotacionesInterpretadas.add(interpretarAnotacionSalomon(contextoInterpretacion, annot));
+                	//                 i++;
+              }
+                
+                
 
 
 
@@ -1283,6 +1296,20 @@ public class InterpreteMsgsIRC {
          return anotacionesInterpretadas;
     }
 
+    private Notificacion interpretarAnotacionSalomon(String conttextoInterpretacion,Annotation anotacionSalomon){
+    	//  if(anotacionSaludo.getType()!="saludo"){
+    	//      return null;
+    	//  }
+    	  Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+    	  // obtenemos el texto del saludo a partir de la anotacion
+    	          
+    	      int posicionComienzoTexto =anotacionSalomon.getStartNode().getOffset().intValue();
+    	      int posicionFinTexto =anotacionSalomon.getEndNode().getOffset().intValue();
+    	      String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+         notif.setTipoNotificacion(anotacionSalomon.getType());
+   	     notif.setMensajeNotificacion(msgNotif);
+        return notif;
+    }
 
     private Notificacion interpretarAnotacionSaludo(String conttextoInterpretacion,Annotation anotacionSaludo){
 //        if(anotacionSaludo.getType()!="saludo"){
@@ -1362,6 +1389,21 @@ public class InterpreteMsgsIRC {
             notif.setMensajeNotificacion(msgNotif);
             return notif;
     }
+    /* Método donde se crea una notificación Afirmacion. */
+    private Notificacion interpretarAnotacionAfirmacion(String conttextoInterpretacion,Annotation anotacionAfirmacion){
+//        if(anotacionSaludo.getType()!="saludo"){
+//            return null;
+//        }
+        Notificacion notif= new Notificacion(this.infoConecxInterlocutor.getuserName());
+        // obtenemos el texto del saludo a partir de la anotacion
+                
+            int posicionComienzoTexto =anotacionAfirmacion.getStartNode().getOffset().intValue();
+            int posicionFinTexto =anotacionAfirmacion.getEndNode().getOffset().intValue();
+            String msgNotif =conttextoInterpretacion.substring(posicionComienzoTexto, posicionFinTexto);
+            notif.setTipoNotificacion(anotacionAfirmacion.getType());
+            notif.setMensajeNotificacion(msgNotif);
+            return notif;
+    }  
 
 
     /* Método donde se crea una notificación Componente. */

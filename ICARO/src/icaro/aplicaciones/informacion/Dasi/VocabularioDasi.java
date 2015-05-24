@@ -16,6 +16,7 @@ public class VocabularioDasi {
     public static final String PETICION_INFORMACION = "¿puedo ayudarte?";
     public static final String NOMBRE_TIPO_NOTIFICACION_DUDA="Duda";
     public static final String NOMBRE_TIPO_NOTIFICACION_APLICACION="Aplicacion"; 
+    public static final String NOMBRE_TIPO_NOTIFICACION_AFIRMACION="Afirmacion"; 
     public static final String NOMBRE_TIPO_NOTIFICACION_NEGACION="Negacion";
     public static final String NOMBRE_TIPO_NOTIFICACION_COMPONENTE="Componente";
     public static final String NOMBRE_TIPO_NOTIFICACION_POSIBILIDAD = "Posibilidad";

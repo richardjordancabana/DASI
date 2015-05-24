@@ -238,3 +238,21 @@ rule "Despedida"
     update(obj) 
 end
 // =======================================================================
+
+
+rule "Incidencia de impresora"
+
+   when
+    obj:EntenderUsuario(state==Objetivo.SOLVING)
+    Focus(foco == obj)
+    notif:Notificacion(identInterlc:identNotificador, tipoNotificacion==VocabularioGestionCitas.NoticacionImpresora)
+
+   then
+
+     TareaSincrona tarea = gestorTareas.crearTareaSincrona(RespuestaImpresora.class);
+     tarea.ejecutar(identInterlc);
+
+    recursoTrazas.aceptaNuevaTraza(new InfoTraza(agentId,"Realizando el objetivo : "+obj.getgoalId()+"  Ejecutando la tarea : "+ tarea.getIdentTarea() ,InfoTraza.NivelTraza.debug));
+    recursoTrazas.aceptaNuevaTrazaEjecReglas(agentId," EJECUTO LA REGLA: " + drools.getRule().getName());
+
+end
